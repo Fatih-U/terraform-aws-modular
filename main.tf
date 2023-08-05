@@ -91,7 +91,7 @@ resource "aws_security_group" "fatih_sg" {
 
 resource "aws_key_pair" "fatih_auth" {
   key_name   = "fatih_key"
-  public_key = file("fatih_key.pub")
+  public_key = file(" ~/.ssh/fatih_key.pub")
 
 }
 
@@ -116,7 +116,7 @@ resource "aws_instance" "dev_node" {
     In Terraform, a provisioner is a feature that allows you to execute scripts or commands on a remote resource after it has been created or destroyed. 
     Provisioners are useful for performing tasks that cannot be managed directly through Terraform configuration, 
     such as installing software, configuring applications, or setting up the environment on the remote resource.
-    
+    */
   provisioner "local-exec" {
     command = templatefile("${var.host_os}-ssh-config.tpl", {
       hostname     = self.public_ip,
@@ -125,6 +125,6 @@ resource "aws_instance" "dev_node" {
     })
     interpreter = var.host_os == "linux" ? ["bash", "-c"] : ["Powershell", "-Command"]
   }
-  */
+  
 
 }
