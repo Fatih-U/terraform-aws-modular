@@ -11,14 +11,14 @@
 */
 
 resource "aws_key_pair" "fatih_auth" {
-  key_name   = "fatih_key"
+  key_name   = var.key_name
   public_key = file("~/.ssh/fatih_key.pub")
 
 }
 
 #Step10 - Create EC2 instance
 resource "aws_instance" "dev_node" {
-  instance_type          = "t2.micro"
+  instance_type          = var.instance_type
   ami                    = data.aws_ami.server_ami.id
   key_name               = aws_key_pair.fatih_auth.id
   vpc_security_group_ids = var.security_group_id
@@ -31,7 +31,7 @@ resource "aws_instance" "dev_node" {
   }
 
   tags = {
-    Name = "dev-node"
+    Name = "${var.node_name}-dev-node"
   }
   /*
     In Terraform, a provisioner is a feature that allows you to execute scripts or commands on a remote resource after it has been created or destroyed. 
